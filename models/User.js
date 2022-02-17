@@ -16,7 +16,7 @@ User.init(
             // this is equivalent of SQL's `NOT NULL` option
             allowNull: false,
             // instruct that this is the Prim Key
-            PrimaryKey: true,
+            primaryKey: true,
             // turn on auto increment
             autoIncrement: true
         },
@@ -61,5 +61,4 @@ User.init(
         modelName: 'user'
     }
 );
-
-model.exports = User;
+module.exports = User;

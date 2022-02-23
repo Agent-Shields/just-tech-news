@@ -16,6 +16,9 @@ router.get('/', (req, res) => {
 router.get('/:id', (req, res) => {
   User.findOne({
     attributes: { exclude: ['password'] },
+    where: {
+      id: req.params.id
+    },
     include: [
       {
         model: Post,
@@ -27,10 +30,7 @@ router.get('/:id', (req, res) => {
         through: Vote,
         as: 'voted_posts'
       }
-    ],
-    where: {
-      id: req.params.id
-    }
+    ]
   })
     .then(dbUserData => {
       if (!dbUserData) {
@@ -72,6 +72,7 @@ router.post('/login', (req, res) => {
     }
 
     const validPassword = dbUserData.checkPassword(req.body.password);
+
     if (!validPassword) {
       res.status(400).json({ message: 'Incorrect password!' });
       return;
@@ -80,7 +81,6 @@ router.post('/login', (req, res) => {
     res.json({ user: dbUserData, message: 'You are now logged in!' });
   });
 });
-
 
 router.put('/:id', (req, res) => {
   // expects {username: 'Lernantino', email: 'lernantino@gmail.com', password: 'password1234'}
